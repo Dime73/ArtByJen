@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const emailP = document.createElement('p');
         emailP.textContent = 'Email: ';
         const emailLink = document.createElement('a');
-        emailLink.href = 'mailto:' + contactData.email;
+        emailLink.href = 'mailto:' + encodeURIComponent(contactData.email);
         emailLink.textContent = contactData.email;
         emailP.appendChild(emailLink);
 
