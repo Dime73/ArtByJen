@@ -1,0 +1,72 @@
+backend:
+  name: github
+  repo: Dime73/ArtByJen
+  branch: main
+  # Test mode - for repository collaborators only
+  # No OAuth setup required, uses GitHub's direct authentication
+  open_authoring: true
+
+# Media files will be stored in the images folder
+media_folder: "images"
+public_folder: "images"
+# Restrict media uploads to images only (for security)
+# Note: File size limits are enforced by GitHub (typically 100MB per file)
+media_library:
+  config:
+    # Allow only common image MIME types to be uploaded via the CMS
+    file_types:
+      - "image/jpeg"
+      - "image/png"
+      - "image/gif"
+      - "image/webp"
+      - "image/svg+xml"
+
+# Content collections
+collections:
+  # Site settings (hero section, about, contact)
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - name: "hero"
+        label: "Home Page Hero"
+        file: "content/hero.json"
+        fields:
+          - {label: "Title", name: "title", widget: "string"}
+          - {label: "Subtitle", name: "subtitle", widget: "string"}
+      
+      - name: "about"
+        label: "About Section"
+        file: "content/about.json"
+        fields:
+          - {label: "Section Title", name: "section_title", widget: "string", default: "About the Artist"}
+          - {label: "Paragraph 1", name: "paragraph1", widget: "text"}
+          - {label: "Paragraph 2", name: "paragraph2", widget: "text"}
+      
+      - name: "contact"
+        label: "Contact Information"
+        file: "content/contact.json"
+        fields:
+          - {label: "Section Title", name: "section_title", widget: "string", default: "Get In Touch"}
+          - {label: "Description", name: "description", widget: "text"}
+          - {label: "Email", name: "email", widget: "string"}
+      
+      - name: "gallery_index"
+        label: "Gallery Index (Auto-managed)"
+        file: "content/gallery-index.json"
+        fields:
+          - {label: "Files", name: "files", widget: "list", hint: "This list is automatically updated when gallery items are added or removed. Do not edit manually."}
+  
+  # Gallery items
+  - name: "gallery"
+    label: "Gallery Items"
+    folder: "content/gallery"
+    create: true
+    slug: "{{fields.filename}}"
+    identifier_field: "title"
+    fields:
+      - {label: "Filename", name: "filename", widget: "string", hint: "URL-friendly name for this file (e.g., 'my-artwork'). Will be saved as 'my-artwork.json'. Use lowercase letters and hyphens.", pattern: ['^[a-z]([a-z0-9-]*[a-z0-9])?$', "Must start with a letter, end with a letter or number, and contain only lowercase letters, numbers, and hyphens"]}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Medium/Description", name: "medium", widget: "string", hint: "e.g., 'Oil on Canvas, 2024'"}
+      - {label: "Image", name: "image", widget: "image"}
+      - {label: "Alt Text", name: "alt", widget: "string", hint: "Describe the image for accessibility"}
+      - {label: "Order", name: "order", widget: "number", default: 10, hint: "Lower numbers appear first. Existing items use 1-9, new items default to 10+"}
