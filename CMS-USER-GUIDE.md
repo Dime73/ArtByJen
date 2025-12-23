@@ -66,12 +66,14 @@ This guide will help you update text and images on your website without any tech
 2. You'll see a list of all your artwork
 3. Click on the item you want to edit
 4. You can change:
+   - **Filename**: ⚠️ **Warning**: Changing this creates a new file with the new name. The old file will remain in the repository. If you change the filename, you must also update the Gallery Index to remove the old filename and add the new one. It's generally better to avoid changing filenames for existing items.
    - **Title**: The name of the artwork
    - **Medium/Description**: e.g., "Oil on Canvas, 2024"
    - **Image**: Click to upload a new image (see below)
    - **Alt Text**: Description for accessibility
    - **Order**: Change the number to reorder items (lower numbers appear first)
 5. Click **"Save"** then **"Publish"**
+6. **If you changed the Filename**: Go to **"Site Settings"** → **"Gallery Index (Auto-managed)"**, remove the old filename, add the new filename (with .json extension), then **"Save"** and **"Publish"**
 
 ### Adding a New Gallery Item
 

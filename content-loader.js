@@ -42,86 +42,47 @@ document.addEventListener('DOMContentLoaded', async function() {
         const emailP = document.createElement('p');
         emailP.textContent = 'Email: ';
         const emailLink = document.createElement('a');
-        emailLink.href = 'mailto:' + encodeURIComponent(contactData.email);
+        emailLink.href = 'mailto:' + contactData.email;
         emailLink.textContent = contactData.email;
         emailP.appendChild(emailLink);
+        contactContent.appendChild(descP);
+        contactContent.appendChild(emailP);
 
-        // Helper to load gallery items for a given list of JSON filenames
-        async function loadGalleryItemsForFiles(fileNames) {
-            const items = [];
-            for (const file of fileNames) {
-                try {
-                    const response = await fetch(`content/gallery/${file}`);
-                    if (response.ok) {
-                        const item = await response.json();
-                        items.push(item);
-                    }
-                    // Silently skip files that don't exist (404 is expected for discovery patterns)
-                } catch (error) {
-                    // Only log actual errors (network failures, JSON parse errors, etc.)
-                    // Fetch doesn't throw for 404, so any error here is unexpected
-                    console.warn(`Error loading gallery item: ${file}`, error);
-                }
-            }
-            return items;
-        }
-
-        let galleryItems = [];
-
-        // Prefer a manifest-based discovery of gallery JSON files
+        // Load gallery items
+        const galleryGrid = document.querySelector('.gallery-grid');
+        galleryGrid.replaceChildren(); // Clear existing items safely
+        
+        // Load gallery index to discover all gallery items dynamically
+        let galleryFiles = [];
         try {
-            const manifestResponse = await fetch('content/gallery/manifest.json');
-            if (manifestResponse.ok) {
-                const manifestData = await manifestResponse.json();
+            const indexResponse = await fetch('content/gallery-index.json');
+            if (indexResponse.ok) {
+                const indexData = await indexResponse.json();
+                galleryFiles = indexData.files || [];
+            } else {
+                throw new Error('Gallery index not found');
+            }
+        } catch (error) {
+            console.error('Failed to load gallery index. Gallery items will not be displayed.', error);
+            // Do not use hardcoded fallback - all gallery items must be in the index
+            return;
+        }
 
-                // Support either { "files": [...] } or a plain array [...]
-                const rawFiles = Array.isArray(manifestData)
-                    ? manifestData
-                    : Array.isArray(manifestData.files)
-                        ? manifestData.files
-                        : [];
-
-                const manifestFiles = Array.from(
-                    new Set(
-                        rawFiles.filter(
-                            (f) => typeof f === 'string' && f.toLowerCase().endsWith('.json')
-                        )
-                    )
-                );
-
-                if (manifestFiles.length > 0) {
-                    galleryItems = await loadGalleryItemsForFiles(manifestFiles);
+        const galleryItems = [];
+        for (const file of galleryFiles) {
+            try {
+                const response = await fetch(`content/gallery/${file}`);
+                if (response.ok) {
+                    const item = await response.json();
+                    galleryItems.push(item);
+                } else {
+                    console.warn(`Gallery item listed in index but not found: ${file}`);
                 }
+            } catch (error) {
+                console.warn(`Error loading gallery item: ${file}`, error);
             }
-        } catch (e) {
-            // Any failures here will cause a fallback to the hardcoded list below
-            console.warn('Falling back to hardcoded gallery file list:', e);
         }
 
-        // Fallback to existing hardcoded discovery if manifest is unavailable or empty
-        if (galleryItems.length === 0) {
-            // Build list of gallery files to check
-            // Includes existing files and some common patterns for new files added through the CMS
-            const galleryFiles = [
-                // Existing gallery items
-                'abstract-dreams.json',
-                'mountain-serenity.json',
-                'silent-reflection.json',
-                'morning-light.json',
-                'urban-rhythms.json',
-                'botanical-wonder.json',
-                'form-and-space.json',
-                'frozen-moment.json',
-                'textured-harmony.json'
-            ];
-
-            // Add some numbered patterns for CMS-generated files (silently fail if not found)
-            for (let i = 1; i <= 10; i++) {
-                galleryFiles.push(`gallery-item-${i}.json`);
-            }
-
-            galleryItems = await loadGalleryItemsForFiles(galleryFiles);
-        }
         // Sort by order field
         galleryItems.sort((a, b) => (a.order || 0) - (b.order || 0));
 
