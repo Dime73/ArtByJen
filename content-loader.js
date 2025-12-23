@@ -52,24 +52,20 @@ document.addEventListener('DOMContentLoaded', async function() {
         const galleryGrid = document.querySelector('.gallery-grid');
         galleryGrid.replaceChildren(); // Clear existing items safely
         
-        // Build list of gallery files to check
-        // Includes existing files and some common patterns for new files added through the CMS
-        const galleryFiles = [
-            // Existing gallery items
-            'abstract-dreams.json',
-            'mountain-serenity.json',
-            'silent-reflection.json',
-            'morning-light.json',
-            'urban-rhythms.json',
-            'botanical-wonder.json',
-            'form-and-space.json',
-            'frozen-moment.json',
-            'textured-harmony.json'
-        ];
-        
-        // Add some numbered patterns for CMS-generated files (silently fail if not found)
-        for (let i = 1; i <= 10; i++) {
-            galleryFiles.push(`gallery-item-${i}.json`);
+        // Load gallery index to discover all gallery items dynamically
+        let galleryFiles = [];
+        try {
+            const indexResponse = await fetch('content/gallery-index.json');
+            if (indexResponse.ok) {
+                const indexData = await indexResponse.json();
+                galleryFiles = indexData.files || [];
+            } else {
+                throw new Error('Gallery index not found');
+            }
+        } catch (error) {
+            console.error('Failed to load gallery index. Gallery items will not be displayed.', error);
+            // Do not use hardcoded fallback - all gallery items must be in the index
+            return;
         }
 
         const galleryItems = [];
@@ -79,12 +75,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                 if (response.ok) {
                     const item = await response.json();
                     galleryItems.push(item);
+                } else {
+                    console.warn(`Gallery item listed in index but not found: ${file}`);
                 }
-                // Silently skip files that don't exist (404 is expected for discovery patterns)
-                // No else needed - 404s are expected and should be silent
             } catch (error) {
-                // Only log actual errors (network failures, JSON parse errors, etc.)
-                // Fetch doesn't throw for 404, so any error here is unexpected
                 console.warn(`Error loading gallery item: ${file}`, error);
             }
         }

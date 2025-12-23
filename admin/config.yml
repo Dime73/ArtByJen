@@ -40,6 +40,12 @@ collections:
           - {label: "Section Title", name: "section_title", widget: "string", default: "Get In Touch"}
           - {label: "Description", name: "description", widget: "text"}
           - {label: "Email", name: "email", widget: "string"}
+      
+      - name: "gallery_index"
+        label: "Gallery Index (Auto-managed)"
+        file: "content/gallery-index.json"
+        fields:
+          - {label: "Files", name: "files", widget: "list", hint: "This list is automatically updated when gallery items are added or removed. Do not edit manually."}
   
   # Gallery items
   - name: "gallery"

@@ -78,12 +78,18 @@ This guide will help you update text and images on your website without any tech
 1. Click on **"Gallery Items"**
 2. Click the **"New Gallery Item"** button
 3. Fill in all the fields:
+   - **Filename**: Enter a URL-friendly name (e.g., "spring-breeze" or "sunset-painting"). Use only lowercase letters, numbers, and hyphens. Must start with a letter and end with a letter or number.
    - **Title**: Name your artwork
    - **Medium/Description**: Describe the medium and year
    - **Image**: Click to upload your image
    - **Alt Text**: Describe what's in the image
    - **Order**: Choose where it should appear (e.g., 10 for tenth position)
 4. Click **"Save"** then **"Publish"**
+5. **Important**: After adding a new gallery item, you must also update the Gallery Index:
+   - Go to **"Site Settings"** → **"Gallery Index (Auto-managed)"**
+   - Add the new filename (e.g., "spring-breeze.json") to the list
+   - Click **"Save"** then **"Publish"**
+   - Without this step, your new artwork won't appear on the website!
 
 ### Deleting a Gallery Item
 
@@ -92,6 +98,10 @@ This guide will help you update text and images on your website without any tech
 3. Click the **"Delete"** button (usually near the top)
 4. Confirm the deletion
 5. Click **"Publish"** to apply the change
+6. **Important**: Also update the Gallery Index:
+   - Go to **"Site Settings"** → **"Gallery Index (Auto-managed)"**
+   - Remove the deleted filename from the list
+   - Click **"Save"** then **"Publish"**
 
 ## Uploading New Images
 

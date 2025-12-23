@@ -138,6 +138,7 @@ ArtByJen/
 │   ├── hero.json           # Home page hero content
 │   ├── about.json          # About section content
 │   ├── contact.json        # Contact information
+│   ├── gallery-index.json  # Index of all gallery items (must be updated when adding/removing items)
 │   └── gallery/            # Gallery items
 │       ├── abstract-dreams.json
 │       ├── mountain-serenity.json
@@ -146,6 +147,26 @@ ArtByJen/
 ├── index.html              # Main website (now dynamic)
 └── CMS-USER-GUIDE.md       # User guide for your client
 ```
+
+## Gallery Index Management
+
+**Important**: The gallery uses an index file (`content/gallery-index.json`) to discover which gallery items to display. This is a two-step process:
+
+1. **Adding a Gallery Item**:
+   - Create the gallery item in the CMS (Gallery Items → New Gallery Item)
+   - Update the Gallery Index (Site Settings → Gallery Index) to include the new filename
+   - Both must be published for the item to appear on the website
+
+2. **Removing a Gallery Item**:
+   - Delete the gallery item in the CMS
+   - Update the Gallery Index to remove the filename
+   - Both must be published for the item to disappear from the website
+
+This approach ensures:
+- No hardcoded filenames in the JavaScript
+- All gallery items with any filename can be discovered
+- The website only displays items explicitly listed in the index
+- No unnecessary 404 requests for non-existent files
 
 ## Troubleshooting
 
