@@ -52,9 +52,13 @@ The design follows Scandinavian minimalism principles:
 
 ## Deployment
 
+This site can be deployed to multiple platforms:
+
+### GitHub Pages (Current)
+
 This site is configured to automatically deploy to GitHub Pages using GitHub Actions.
 
-### Enabling GitHub Pages (One-time setup)
+#### Enabling GitHub Pages (One-time setup)
 
 To enable automatic deployment, you need to configure GitHub Pages in your repository settings:
 
@@ -69,9 +73,27 @@ Once configured, the workflow will automatically deploy the site to GitHub Pages
 
 The site will be available at: https://dime73.github.io/ArtByJen/
 
-### Manual Deployment
+#### Manual Deployment
 
 You can also manually trigger a deployment by going to the Actions tab and running the "Deploy to GitHub Pages" workflow.
+
+### Netlify
+
+This site is also ready to deploy on Netlify with zero configuration needed!
+
+📖 **[Read the Netlify Deployment Guide](NETLIFY-DEPLOYMENT.md)** - Complete instructions for deploying to Netlify
+
+**Quick start:**
+1. Log in to [Netlify](https://app.netlify.com)
+2. Import this repository
+3. Deploy! (Settings are auto-detected from `netlify.toml`)
+
+**Benefits of Netlify:**
+- Automatic HTTPS
+- Global CDN
+- Instant cache invalidation
+- Deploy previews for pull requests
+- Easy custom domain setup
 
 ## Local Development
 
