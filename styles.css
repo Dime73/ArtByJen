@@ -80,6 +80,7 @@ nav .container {
     font-size: 0.95rem;
     transition: var(--transition);
     letter-spacing: 0.5px;
+    padding: 0.5rem 0.3rem;
 }
 
 .nav-links a:hover {
@@ -114,7 +115,6 @@ section {
 }
 
 .section-title {
-    font-size: 2rem;
     text-align: center;
     margin-bottom: 4rem;
     color: var(--primary-color);
