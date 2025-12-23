@@ -1,13 +1,6 @@
 // Load and populate site content from JSON files
 document.addEventListener('DOMContentLoaded', async function() {
     try {
-        // Helper function to escape HTML to prevent XSS
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
         // Load hero section
         const heroResponse = await fetch('content/hero.json');
         if (!heroResponse.ok) {

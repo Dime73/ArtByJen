@@ -44,9 +44,10 @@ collections:
     label: "Gallery Items"
     folder: "content/gallery"
     create: true
-    slug: "{{slug}}"
+    slug: "{{fields.filename}}"
     identifier_field: "title"
     fields:
+      - {label: "Filename", name: "filename", widget: "string", hint: "URL-friendly name for this file (e.g., 'my-artwork'). Will be saved as 'my-artwork.json'. Use lowercase and hyphens, no spaces.", pattern: ['^[a-z0-9-]+$', "Must contain only lowercase letters, numbers, and hyphens"]}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Medium/Description", name: "medium", widget: "string", hint: "e.g., 'Oil on Canvas, 2024'"}
       - {label: "Image", name: "image", widget: "image"}
