@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector('.about-section .section-title').textContent = aboutData.section_title;
         const aboutText = document.querySelector('.about-text');
         // Clear existing content and create new paragraphs safely
-        aboutText.innerHTML = '';
+        aboutText.replaceChildren();
         const p1 = document.createElement('p');
         p1.textContent = aboutData.paragraph1;
         const p2 = document.createElement('p');
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.querySelector('.contact-section .section-title').textContent = contactData.section_title;
         const contactContent = document.querySelector('.contact-content');
         // Create elements safely
-        contactContent.innerHTML = '';
+        contactContent.replaceChildren();
         const descP = document.createElement('p');
         descP.textContent = contactData.description;
         const emailP = document.createElement('p');
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // Load gallery items
         const galleryGrid = document.querySelector('.gallery-grid');
-        galleryGrid.innerHTML = ''; // Clear existing items
+        galleryGrid.replaceChildren(); // Clear existing items safely
         
         // Build list of gallery files to check
         // Includes existing files and some common patterns for new files added through the CMS

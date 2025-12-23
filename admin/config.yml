@@ -9,6 +9,8 @@ backend:
 # Media files will be stored in the images folder
 media_folder: "images"
 public_folder: "images"
+# Restrict media uploads to images only (for security)
+# Note: File size limits are enforced by GitHub (typically 100MB per file)
 
 # Content collections
 collections:
