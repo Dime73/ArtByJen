@@ -55,31 +55,28 @@ document.addEventListener('DOMContentLoaded', async function() {
         contactContent.appendChild(descP);
         contactContent.appendChild(emailP);
 
-        // Load gallery items - discover files dynamically
+        // Load gallery items
         const galleryGrid = document.querySelector('.gallery-grid');
         galleryGrid.innerHTML = ''; // Clear existing items
         
-        // Try to load gallery index file, fall back to hardcoded list
-        let galleryFiles = [];
-        try {
-            const indexResponse = await fetch('content/gallery/index.json');
-            if (indexResponse.ok) {
-                const indexData = await indexResponse.json();
-                galleryFiles = indexData.files || [];
-            }
-        } catch (error) {
-            // Fall back to hardcoded list if index doesn't exist
-            galleryFiles = [
-                'abstract-dreams.json',
-                'mountain-serenity.json',
-                'silent-reflection.json',
-                'morning-light.json',
-                'urban-rhythms.json',
-                'botanical-wonder.json',
-                'form-and-space.json',
-                'frozen-moment.json',
-                'textured-harmony.json'
-            ];
+        // Build list of gallery files to check
+        // Includes existing files and some common patterns for new files added through the CMS
+        const galleryFiles = [
+            // Existing gallery items
+            'abstract-dreams.json',
+            'mountain-serenity.json',
+            'silent-reflection.json',
+            'morning-light.json',
+            'urban-rhythms.json',
+            'botanical-wonder.json',
+            'form-and-space.json',
+            'frozen-moment.json',
+            'textured-harmony.json'
+        ];
+        
+        // Add some numbered patterns for CMS-generated files (silently fail if not found)
+        for (let i = 1; i <= 10; i++) {
+            galleryFiles.push(`gallery-item-${i}.json`);
         }
 
         const galleryItems = [];
@@ -89,11 +86,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                 if (response.ok) {
                     const item = await response.json();
                     galleryItems.push(item);
-                } else {
-                    console.warn(`Could not load gallery item: ${file} (status: ${response.status})`);
                 }
+                // Silently skip files that don't exist (404 is expected for discovery patterns)
             } catch (error) {
-                console.warn(`Error loading gallery item: ${file}`, error);
+                // Only log unexpected errors, not 404s
+                if (error.message && !error.message.includes('404')) {
+                    console.warn(`Error loading gallery item: ${file}`, error);
+                }
             }
         }
 
@@ -105,10 +104,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             const galleryItem = document.createElement('div');
             galleryItem.className = 'gallery-item';
             
-            // Create image element
+            // Create image element (direct assignment is safe for element properties)
             const img = document.createElement('img');
-            img.src = escapeHtml(item.image);
-            img.alt = escapeHtml(item.alt);
+            img.src = item.image;
+            img.alt = item.alt;
             
             // Create info container
             const infoDiv = document.createElement('div');

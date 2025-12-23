@@ -45,9 +45,10 @@ collections:
     folder: "content/gallery"
     create: true
     slug: "{{slug}}"
+    identifier_field: "title"
     fields:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Medium/Description", name: "medium", widget: "string", hint: "e.g., 'Oil on Canvas, 2024'"}
       - {label: "Image", name: "image", widget: "image"}
       - {label: "Alt Text", name: "alt", widget: "string", hint: "Describe the image for accessibility"}
-      - {label: "Order", name: "order", widget: "number", default: 0, hint: "Lower numbers appear first"}
+      - {label: "Order", name: "order", widget: "number", default: 10, hint: "Lower numbers appear first. Existing items use 1-9, new items default to 10+"}
