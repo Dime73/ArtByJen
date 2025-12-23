@@ -4,11 +4,76 @@ This guide explains how to set up the content management system for your Art By 
 
 ## Overview
 
-The website now includes **Decap CMS** (formerly Netlify CMS), which provides a user-friendly interface for managing website content without touching code.
+The website uses **Decap CMS** (formerly Netlify CMS) with **GitHub backend authentication via an external OAuth proxy**. This provides a user-friendly interface for managing website content without touching code.
+
+## Authentication Method: GitHub OAuth via External Proxy
+
+This site is configured to use **GitHub OAuth authentication through an external OAuth proxy server**. This is necessary because GitHub Pages is a static hosting platform and cannot handle OAuth callbacks directly.
+
+### How It Works
+
+1. **User visits CMS**: Goes to `https://dime73.github.io/ArtByJen/admin/`
+2. **Clicks "Login with GitHub"**: Redirected to the OAuth proxy
+3. **OAuth proxy handles authentication**: Manages the GitHub OAuth flow
+4. **User authenticated**: Returns to CMS with access token
+5. **CMS accesses GitHub API**: Makes commits on behalf of the user
+
+### Required OAuth Proxy Setup
+
+**Before the CMS will work**, you must deploy an external OAuth proxy and configure a GitHub OAuth App.
+
+#### Option 1: Use a Hosted OAuth Proxy Service
+
+Several services provide OAuth proxy functionality:
+- [decap-oauth-proxy](https://github.com/vencax/netlify-cms-github-oauth-provider) - Popular open-source option
+- Deploy to services like Heroku, Render, or Railway
+- Or use serverless functions on Vercel/Netlify
+
+#### Option 2: Deploy Your Own OAuth Proxy
+
+See the [OAuth proxy deployment guide](#deploying-an-oauth-proxy) below.
+
+#### Configuring the GitHub OAuth App
+
+1. **Create a GitHub OAuth App**:
+   - Go to https://github.com/settings/developers
+   - Click "New OAuth App"
+   - Set:
+     - **Application name**: `ArtByJen CMS`
+     - **Homepage URL**: `https://dime73.github.io/ArtByJen/`
+     - **Authorization callback URL**: `https://YOUR_OAUTH_PROXY_URL/callback`
+       - Replace `YOUR_OAUTH_PROXY_URL` with your actual OAuth proxy URL
+       - Example: `https://decap-oauth.example.com/callback`
+   - Click "Register application"
+   - Note the **Client ID** and generate a **Client Secret**
+
+2. **Configure the OAuth Proxy**:
+   - Provide the OAuth proxy with:
+     - GitHub OAuth **Client ID**
+     - GitHub OAuth **Client Secret**
+     - Allowed **origin**: `https://dime73.github.io`
+   - Each OAuth proxy has different configuration methods (environment variables, config file, etc.)
+
+3. **Update CMS Configuration**:
+   - Edit `/admin/config.yml`
+   - Replace `https://YOUR_OAUTH_PROXY_URL` with your actual OAuth proxy base URL
+   - Example:
+     ```yaml
+     backend:
+       name: github
+       repo: Dime73/ArtByJen
+       branch: main
+       base_url: https://decap-oauth.example.com  # Your OAuth proxy URL
+     ```
+
+4. **Commit and Deploy**:
+   - Commit the updated `config.yml`
+   - GitHub Actions will automatically deploy to GitHub Pages
+   - The CMS will now be accessible at: `https://dime73.github.io/ArtByJen/admin/`
 
 ## What Can Be Managed?
 
-Your client can now easily update:
+Content editors can easily update:
 
 ✅ **Home Page Hero Section**
 - Main title
@@ -30,115 +95,145 @@ Your client can now easily update:
 - Delete artwork
 - Reorder gallery items
 
-## Quick Start (For Repository Collaborators)
+## Prerequisites
 
-The CMS is already configured and ready to use! Your client just needs:
+Before content editors can use the CMS, you must:
 
-1. **GitHub Account**: They need a GitHub account
-2. **Repository Access**: You need to add them as a collaborator to this repository
-3. **Access the CMS**: Go to https://dime73.github.io/ArtByJen/admin/
+1. ✅ **Deploy an OAuth proxy** (see above)
+2. ✅ **Create a GitHub OAuth App** (see above)
+3. ✅ **Update `admin/config.yml`** with the OAuth proxy URL
+4. ✅ **Add users as repository collaborators** (see below)
 
-### Adding Your Client as a Collaborator
+## Access Control: Repository Collaborators Only
+
+**Important**: Only GitHub users who are collaborators on this repository can use the CMS.
+
+### Adding Content Editors as Collaborators
 
 1. Go to https://github.com/Dime73/ArtByJen/settings/access
 2. Click "Add people"
-3. Enter your client's GitHub username or email
+3. Enter the user's GitHub username or email
 4. Select "Write" access (or "Maintain" for more permissions)
 5. Send the invitation
 
-Once they accept, they can immediately start using the CMS!
+Once they accept, they can access the CMS at: `https://dime73.github.io/ArtByJen/admin/`
 
-## How It Works
+## Deploying an OAuth Proxy
+
+If you need to deploy your own OAuth proxy, here are the steps:
+
+### Using netlify-cms-github-oauth-provider
+
+This is a popular, lightweight OAuth proxy implementation.
+
+**Deploy to Heroku (Example):**
+
+```bash
+# Clone the OAuth provider
+git clone https://github.com/vencax/netlify-cms-github-oauth-provider
+cd netlify-cms-github-oauth-provider
+
+# Create Heroku app
+heroku create your-decap-oauth-proxy
+
+# Set environment variables
+heroku config:set GIT_HOSTNAME=github.com
+heroku config:set OAUTH_CLIENT_ID=your_github_client_id
+heroku config:set OAUTH_CLIENT_SECRET=your_github_client_secret
+heroku config:set ORIGIN=https://dime73.github.io
+
+# Deploy
+git push heroku master
+```
+
+Your OAuth proxy will be available at: `https://your-decap-oauth-proxy.herokuapp.com`
+
+**Deploy to Render/Railway/Other:**
+- Most platforms support deploying from GitHub
+- Fork the `netlify-cms-github-oauth-provider` repository
+- Connect it to your hosting platform
+- Set the same environment variables as above
+
+### Alternative: Serverless Function
+
+You can also deploy a serverless function that handles OAuth. Examples:
+- [Netlify Function](https://github.com/sw-yx/netlify-cms-github-oauth-provider-serverless)
+- [Vercel Function](https://github.com/i40west/netlify-cms-github-auth)
+
+Choose based on your preferred platform.
+
+## How It Works (Technical Details)
+
+## How It Works (Technical Details)
 
 1. **Content Storage**: All content is stored in JSON files in the `/content` folder
 2. **CMS Interface**: The CMS provides a visual editor at `/admin/`
-3. **Version Control**: Changes are committed to GitHub automatically
-4. **Deployment**: GitHub Pages automatically publishes changes within 1-2 minutes
-5. **No Database**: Everything is stored in the repository itself
+3. **Authentication**: OAuth proxy handles GitHub authentication
+4. **Version Control**: Changes are committed to GitHub automatically
+5. **Deployment**: GitHub Pages automatically publishes changes within 1-2 minutes
+6. **No Database**: Everything is stored in the repository itself
 
-## Authentication Options
+## GitHub Pages + Base Path
 
-### Option 1: GitHub Collaborator Access (Current Setup - Recommended)
+This site is deployed as a **GitHub Project Page**, which means it's accessible at:
+- `https://dime73.github.io/ArtByJen/` (note the `/ArtByJen` base path)
 
-**Pros:**
-- ✅ No additional setup required
-- ✅ Works immediately
-- ✅ Free
-- ✅ Simple for repository collaborators
+The CMS is accessible at:
+- `https://dime73.github.io/ArtByJen/admin/`
 
-**Cons:**
-- ❌ Client needs a GitHub account
-- ❌ You need to add them as a repository collaborator
+**Important Notes:**
+- The `/admin` folder must be included in the root directory of the repository
+- GitHub Actions automatically deploys from the root directory to Pages
+- All media files are stored in `/images` with the public path set to `images` (relative paths)
+- The base path is automatically handled by the static site structure
 
-**Current Status:** This configuration restricts CMS access to repository collaborators only. 
-- Only users added as collaborators can use the CMS
-- Changes are published immediately (no draft workflow)
-- Collaborators must have write access to the repository
+## Configuration Summary
 
-### Option 2: Open Authoring (Allow Anyone to Contribute)
+Current configuration (`/admin/config.yml`):
 
-**Note:** This option was previously enabled but has been disabled to restrict access to collaborators only.
-
-If you want to allow **anyone** (not just collaborators) to propose content changes via pull requests:
-
-**Configuration:**
 ```yaml
 backend:
   name: github
   repo: Dime73/ArtByJen
   branch: main
+  base_url: https://YOUR_OAUTH_PROXY_URL  # Must be configured
+
+site_url: https://dime73.github.io/ArtByJen
+
+media_folder: "images"
+public_folder: "images"
+```
+
+**Required Changes:**
+- Replace `https://YOUR_OAUTH_PROXY_URL` with your actual OAuth proxy URL
+- Example: `https://decap-oauth.herokuapp.com`
+
+## Authentication Options (Legacy Information)
+
+### Previously Used: Direct GitHub Authentication
+
+**Note**: This configuration previously used direct GitHub authentication without an OAuth proxy. This only works on platforms that can handle OAuth callbacks (like Netlify). Since we're using GitHub Pages (static hosting), an OAuth proxy is required.
+
+### Option: Open Authoring (Not Recommended for This Setup)
+
+**Open authoring** allows anyone to propose content changes via pull requests. This is NOT recommended when using an OAuth proxy on GitHub Pages because:
+- Adds complexity to the authentication flow
+- Requires editorial workflow and PR review process
+- Better suited for community-driven content sites
+
+To enable (if needed):
+```yaml
+backend:
+  name: github
+  repo: Dime73/ArtByJen
+  branch: main
+  base_url: https://YOUR_OAUTH_PROXY_URL
   open_authoring: true
 
 publish_mode: editorial_workflow
 ```
 
-**How it works:**
-- Any GitHub user can fork the repository and propose changes
-- Non-collaborators' changes go through a draft/PR workflow
-- Only maintainers can merge PRs and publish changes
-- Useful for community-driven content or accepting guest contributions
-
-**Trade-offs:**
-- ✅ Allows broader contributions without granting repository access
-- ❌ Requires reviewing all external contributions
-- ❌ More complex workflow for content updates
-
-### Option 3: GitHub OAuth App (Advanced)
-
-For a more professional setup that doesn't require repository access:
-
-**Pros:**
-- ✅ Can grant CMS access without repository access
-- ✅ More granular permissions
-- ✅ Professional authentication flow
-
-**Cons:**
-- ❌ Requires OAuth app setup
-- ❌ More complex configuration
-
-**Setup Instructions (if needed later):**
-
-1. **Create a GitHub OAuth App**:
-   - Go to https://github.com/settings/developers
-   - Click "New OAuth App"
-   - Set:
-     - Application name: "ArtByJen CMS"
-     - Homepage URL: `https://dime73.github.io/ArtByJen/`
-     - Authorization callback URL: `https://api.netlify.com/auth/done`
-   - Note the Client ID and Client Secret
-
-2. **Use a Backend Service**:
-   - Deploy an authentication backend (e.g., using Netlify, Vercel, or a simple serverless function)
-   - Or use a service like https://github.com/vencax/netlify-cms-github-oauth-provider
-
-3. **Update CMS Config**:
-   ```yaml
-   backend:
-     name: github
-     repo: Dime73/ArtByJen
-     branch: main
-     base_url: https://your-auth-backend.com
-   ```
+**Current Setup**: Open authoring is **disabled** to restrict access to collaborators only.
 
 ## User Guide
 
@@ -150,13 +245,52 @@ Share this guide with your client after setting up their access.
 
 ## Testing the CMS
 
-1. Go to https://dime73.github.io/ArtByJen/admin/
-2. Login with your GitHub account (must be a repository collaborator)
-3. Try editing the "Home Page Hero" section
-4. Make a small change
-5. Click **"Publish"** - changes are saved and committed immediately
-6. Wait 1-2 minutes for GitHub Pages to rebuild
-7. Check https://dime73.github.io/ArtByJen/ to see your changes
+### Prerequisites Checklist
+
+Before testing, ensure:
+- ✅ OAuth proxy is deployed and running
+- ✅ GitHub OAuth App is created and configured
+- ✅ OAuth proxy has correct Client ID and Client Secret
+- ✅ OAuth callback URL in GitHub matches: `https://YOUR_OAUTH_PROXY_URL/callback`
+- ✅ `admin/config.yml` has correct `base_url` pointing to OAuth proxy
+- ✅ Changes are committed and deployed to GitHub Pages
+- ✅ You are a collaborator on the repository
+
+### Testing Steps
+
+1. **Access the CMS**:
+   - Go to https://dime73.github.io/ArtByJen/admin/
+   - You should see the Decap CMS login screen
+
+2. **Login with GitHub**:
+   - Click **"Login with GitHub"**
+   - You'll be redirected to your OAuth proxy
+   - The OAuth proxy will redirect you to GitHub for authorization
+   - Authorize the application
+   - You'll be redirected back to the CMS
+
+3. **Verify Access**:
+   - If login succeeds, you should see the CMS dashboard
+   - You should see collections: "Site Settings" and "Gallery Items"
+
+4. **Test Content Editing**:
+   - Click on "Site Settings" → "Home Page Hero"
+   - Make a small change to the title
+   - Click **"Publish"**
+   - Changes are saved and committed immediately
+
+5. **Verify Changes**:
+   - Wait 1-2 minutes for GitHub Pages to rebuild
+   - Go to https://github.com/Dime73/ArtByJen/commits/main
+   - You should see your commit
+   - Go to https://dime73.github.io/ArtByJen/
+   - You should see your changes reflected on the live site
+
+6. **Test Gallery Management**:
+   - Try adding a new gallery item
+   - Upload an image
+   - Publish the change
+   - Verify it appears on the website
 
 ## File Structure
 
@@ -203,17 +337,68 @@ This approach ensures:
 
 ### "Login Failed" or Authentication Issues
 
-1. Verify the user is added as a repository collaborator
-2. Make sure they have accepted the collaboration invitation
-3. Try logging out of GitHub and back in
-4. Clear browser cache
+**Symptom**: Cannot login to CMS, stuck at login screen, or "Authentication error"
+
+**Possible Causes & Solutions**:
+
+1. **OAuth Proxy Not Configured**:
+   - Verify the OAuth proxy is running and accessible
+   - Test by visiting `https://YOUR_OAUTH_PROXY_URL` in browser
+   - Check OAuth proxy logs for errors
+
+2. **Incorrect `base_url` in config.yml**:
+   - Verify `admin/config.yml` has the correct OAuth proxy URL
+   - Should be: `base_url: https://YOUR_OAUTH_PROXY_URL` (no trailing slash)
+   - Commit and redeploy if changed
+
+3. **GitHub OAuth App Misconfigured**:
+   - Verify callback URL is: `https://YOUR_OAUTH_PROXY_URL/callback`
+   - Verify homepage URL is: `https://dime73.github.io/ArtByJen/`
+   - Verify Client ID and Secret are correctly set in OAuth proxy
+
+4. **CORS Issues**:
+   - Verify OAuth proxy allows origin: `https://dime73.github.io`
+   - Check browser console for CORS errors
+   - OAuth proxy must include proper CORS headers
+
+5. **User Not a Collaborator**:
+   - Verify user is added as a repository collaborator
+   - User must have accepted the collaboration invitation
+   - User must have "Write" or higher access level
+
+6. **Browser Issues**:
+   - Try logging out of GitHub and back in
+   - Clear browser cache and cookies
+   - Try incognito/private browsing mode
+   - Try a different browser
+
+### OAuth Proxy Returning Errors
+
+**Check OAuth Proxy Logs**: Most OAuth proxies log authentication attempts. Common errors:
+
+- **"Invalid client"**: Client ID doesn't match GitHub OAuth App
+- **"Invalid secret"**: Client Secret is incorrect
+- **"Redirect URI mismatch"**: Callback URL doesn't match GitHub OAuth App settings
 
 ### Changes Not Appearing on Website
 
-1. Check GitHub Actions to ensure deployment succeeded
-2. Wait 2-3 minutes for GitHub Pages to update
-3. Hard refresh the browser (Ctrl+Shift+R or Cmd+Shift+R)
-4. Check the repository for the commits
+1. **Check GitHub Actions**:
+   - Go to https://github.com/Dime73/ArtByJen/actions
+   - Ensure deployment workflow succeeded
+   - If failed, check error logs
+
+2. **Wait for Pages to Rebuild**:
+   - GitHub Pages can take 2-5 minutes to rebuild
+   - Check deployment status in repository Settings → Pages
+
+3. **Hard Refresh Browser**:
+   - Press Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (Mac)
+   - This clears cached resources
+
+4. **Verify Commit**:
+   - Go to https://github.com/Dime73/ArtByJen/commits/main
+   - Ensure your change was committed
+   - Click on the commit to see the diff
 
 ### Images Not Loading
 
