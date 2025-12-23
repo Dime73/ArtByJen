@@ -8,9 +8,6 @@
   # No build command needed - all files are ready to deploy
   command = ""
 
-[build.environment]
-  # No special environment variables needed for this static site
-
 # Headers for security and performance
 [[headers]]
   # Apply these headers to all routes
@@ -40,6 +37,3 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-# Form handling (if forms are added in the future)
-# Netlify automatically processes forms with data-netlify="true"
