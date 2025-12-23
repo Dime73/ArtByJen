@@ -1,4 +1,4 @@
 <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-  <rect width="400" height="400" fill="#AA96DA"/>
-  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">Abstract Art 2</text>
+  <rect width="400" height="400" fill="#B8B5AD"/>
+  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="18" fill="#4a4a4a" text-anchor="middle" dominant-baseline="middle" font-weight="300">Abstract Art 2</text>
 </svg>
