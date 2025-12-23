@@ -2,8 +2,9 @@ backend:
   name: github
   repo: Dime73/ArtByJen
   branch: main
+  # Works on both GitHub Pages and Netlify
+  # Users authenticate with their GitHub account
   # For repository collaborators only
-  # No OAuth setup required, uses GitHub's direct authentication
   # Note: open_authoring is disabled to restrict access to collaborators only
 
 # Media files will be stored in the images folder
