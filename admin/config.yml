@@ -11,6 +11,15 @@ media_folder: "images"
 public_folder: "images"
 # Restrict media uploads to images only (for security)
 # Note: File size limits are enforced by GitHub (typically 100MB per file)
+media_library:
+  config:
+    # Allow only common image MIME types to be uploaded via the CMS
+    file_types:
+      - "image/jpeg"
+      - "image/png"
+      - "image/gif"
+      - "image/webp"
+      - "image/svg+xml"
 
 # Content collections
 collections:
