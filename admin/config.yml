@@ -2,10 +2,13 @@ backend:
   name: github
   repo: Dime73/ArtByJen
   branch: main
-  # Works on both GitHub Pages and Netlify
+  base_url: https://YOUR_OAUTH_PROXY_URL  # Replace with your OAuth proxy URL (e.g., https://decap-oauth.example.com)
+  # GitHub OAuth authentication via external proxy
   # Users authenticate with their GitHub account
   # For repository collaborators only
-  # Note: open_authoring is disabled to restrict access to collaborators only
+
+# Site URL for previews and links
+site_url: https://dime73.github.io/ArtByJen
 
 # Media files will be stored in the images folder
 media_folder: "images"

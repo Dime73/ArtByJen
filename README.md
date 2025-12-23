@@ -8,7 +8,7 @@ This portfolio is hosted on GitHub Pages: [https://dime73.github.io/ArtByJen/](h
 
 ## Content Management
 
-**✨ New!** This website now includes a user-friendly CMS that allows non-technical users to update content and images without touching code!
+**✨ New!** This website includes a user-friendly CMS powered by Decap CMS with GitHub OAuth authentication.
 
 ### For Content Editors (Non-Technical Users)
 
@@ -21,7 +21,62 @@ This portfolio is hosted on GitHub Pages: [https://dime73.github.io/ArtByJen/](h
 
 ### For Developers/Administrators
 
-📖 **[Read the Setup Guide](CMS-SETUP-GUIDE.md)** - Technical documentation for CMS configuration
+📖 **[Read the Setup Guide](CMS-SETUP-GUIDE.md)** - Complete technical documentation for CMS configuration
+
+#### OAuth Proxy Setup (Required)
+
+This CMS uses **GitHub OAuth authentication via an external OAuth proxy**. Before the CMS will work, you must:
+
+1. **Deploy an OAuth Proxy**:
+   - Use a service like [netlify-cms-github-oauth-provider](https://github.com/vencax/netlify-cms-github-oauth-provider)
+   - Deploy to Heroku, Render, Railway, or as a serverless function
+   - Example: `https://your-oauth-proxy.herokuapp.com`
+
+2. **Create a GitHub OAuth App**:
+   - Go to: https://github.com/settings/developers
+   - Create new OAuth App with:
+     - **Homepage URL**: `https://dime73.github.io/ArtByJen/`
+     - **Callback URL**: `https://YOUR_OAUTH_PROXY_URL/callback`
+   - Note the Client ID and Client Secret
+
+3. **Configure the OAuth Proxy**:
+   - Set environment variables:
+     - `OAUTH_CLIENT_ID`: Your GitHub OAuth App Client ID
+     - `OAUTH_CLIENT_SECRET`: Your GitHub OAuth App Client Secret
+     - `ORIGIN`: `https://dime73.github.io`
+
+4. **Update CMS Configuration**:
+   - Edit `admin/config.yml`
+   - Replace `https://YOUR_OAUTH_PROXY_URL` with your actual OAuth proxy URL
+   - Commit and push changes
+
+5. **Add Users as Collaborators**:
+   - Go to: https://github.com/Dime73/ArtByJen/settings/access
+   - Add users with "Write" access
+   - They can then login at: https://dime73.github.io/ArtByJen/admin/
+
+#### Quick Configuration Reference
+
+**CMS Configuration** (`admin/config.yml`):
+```yaml
+backend:
+  name: github
+  repo: Dime73/ArtByJen
+  branch: main
+  base_url: https://YOUR_OAUTH_PROXY_URL  # Replace with your OAuth proxy
+
+site_url: https://dime73.github.io/ArtByJen
+```
+
+**GitHub OAuth App Settings**:
+- Homepage URL: `https://dime73.github.io/ArtByJen/`
+- Callback URL: `https://YOUR_OAUTH_PROXY_URL/callback`
+
+**OAuth Proxy Environment Variables**:
+- `OAUTH_CLIENT_ID`: GitHub OAuth App Client ID
+- `OAUTH_CLIENT_SECRET`: GitHub OAuth App Client Secret  
+- `ORIGIN`: `https://dime73.github.io`
+- `GIT_HOSTNAME`: `github.com`
 
 **What can be managed:**
 - Home page hero section (title, subtitle)
