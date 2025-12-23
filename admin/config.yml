@@ -2,13 +2,9 @@ backend:
   name: github
   repo: Dime73/ArtByJen
   branch: main
-  # Test mode - for repository collaborators only
+  # For repository collaborators only
   # No OAuth setup required, uses GitHub's direct authentication
-  open_authoring: true
-
-# Editorial workflow is required when open_authoring is enabled
-# This enables draft/review workflow with pull requests
-publish_mode: editorial_workflow
+  # Note: open_authoring is disabled to restrict access to collaborators only
 
 # Media files will be stored in the images folder
 media_folder: "images"

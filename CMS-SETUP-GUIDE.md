@@ -70,14 +70,40 @@ Once they accept, they can immediately start using the CMS!
 - ❌ Client needs a GitHub account
 - ❌ You need to add them as a repository collaborator
 
-**Current Status:** This is the current configuration with `open_authoring: true` and `publish_mode: editorial_workflow`. This means:
-- Changes go through a draft/review workflow
-- Content is saved as drafts first
-- Drafts must be moved to "Ready to Review" to create a pull request
-- Pull requests must be merged for changes to go live
-- This workflow is required when using `open_authoring`
+**Current Status:** This configuration restricts CMS access to repository collaborators only. 
+- Only users added as collaborators can use the CMS
+- Changes are published immediately (no draft workflow)
+- Collaborators must have write access to the repository
 
-### Option 2: GitHub OAuth App (Advanced)
+### Option 2: Open Authoring (Allow Anyone to Contribute)
+
+**Note:** This option was previously enabled but has been disabled to restrict access to collaborators only.
+
+If you want to allow **anyone** (not just collaborators) to propose content changes via pull requests:
+
+**Configuration:**
+```yaml
+backend:
+  name: github
+  repo: Dime73/ArtByJen
+  branch: main
+  open_authoring: true
+
+publish_mode: editorial_workflow
+```
+
+**How it works:**
+- Any GitHub user can fork the repository and propose changes
+- Non-collaborators' changes go through a draft/PR workflow
+- Only maintainers can merge PRs and publish changes
+- Useful for community-driven content or accepting guest contributions
+
+**Trade-offs:**
+- ✅ Allows broader contributions without granting repository access
+- ❌ Requires reviewing all external contributions
+- ❌ More complex workflow for content updates
+
+### Option 3: GitHub OAuth App (Advanced)
 
 For a more professional setup that doesn't require repository access:
 
@@ -114,26 +140,6 @@ For a more professional setup that doesn't require repository access:
      base_url: https://your-auth-backend.com
    ```
 
-## Editorial Workflow
-
-The CMS uses an **Editorial Workflow** which provides a draft/review process:
-
-### How It Works
-
-1. **Draft**: Changes are saved as drafts when you click "Save"
-2. **Ready to Review**: Move drafts to this status to create a pull request
-3. **Merged**: Once the PR is merged, changes go live on the website
-
-### Publishing Steps
-
-1. Make your changes in the CMS
-2. Click **"Save"** - this saves as a draft
-3. Click **"Set Status: Ready"** - this creates a pull request
-4. A repository maintainer reviews and merges the pull request
-5. Changes appear on the website within 1-2 minutes
-
-**Note**: If you have write access to the repository, you can merge your own pull requests.
-
 ## User Guide
 
 A comprehensive user guide has been created for your client:
@@ -145,14 +151,12 @@ Share this guide with your client after setting up their access.
 ## Testing the CMS
 
 1. Go to https://dime73.github.io/ArtByJen/admin/
-2. Login with your GitHub account
+2. Login with your GitHub account (must be a repository collaborator)
 3. Try editing the "Home Page Hero" section
 4. Make a small change
-5. Click **"Save"** - this creates a draft
-6. Click **"Set Status: Ready"** - this creates a pull request
-7. Merge the pull request (if you have write access)
-8. Wait 1-2 minutes
-9. Check https://dime73.github.io/ArtByJen/ to see your changes
+5. Click **"Publish"** - changes are saved and committed immediately
+6. Wait 1-2 minutes for GitHub Pages to rebuild
+7. Check https://dime73.github.io/ArtByJen/ to see your changes
 
 ## File Structure
 
