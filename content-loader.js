@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                     galleryItems.push(item);
                 }
                 // Silently skip files that don't exist (404 is expected for discovery patterns)
+                // No else needed - 404s are expected and should be silent
             } catch (error) {
-                // Only log unexpected errors, not 404s
-                if (error.message && !error.message.includes('404')) {
-                    console.warn(`Error loading gallery item: ${file}`, error);
-                }
+                // Only log actual errors (network failures, JSON parse errors, etc.)
+                // Fetch doesn't throw for 404, so any error here is unexpected
+                console.warn(`Error loading gallery item: ${file}`, error);
             }
         }
 
