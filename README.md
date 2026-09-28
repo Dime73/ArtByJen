@@ -1,34 +1,14 @@
 # ArtByJen
 
-A modern, gallery-led art portfolio with an easy-to-use Content Management System (CMS). The three artworks currently shown are generated samples and should be replaced with Jen's own work before presenting the gallery as her portfolio.
+A modern, gallery-led art portfolio with a browser-based studio editor. The three artworks currently shown are generated samples and should be replaced with Jen's own work before presenting the gallery as her portfolio.
 
 ## Live Website
 
 This portfolio is hosted on GitHub Pages: [https://dime73.github.io/ArtByJen/](https://dime73.github.io/ArtByJen/)
 
-## Content Management
+## Content management
 
-**✨ New!** This website now includes a user-friendly CMS that allows non-technical users to update content and images without touching code!
-
-### For Content Editors (Non-Technical Users)
-
-📖 **[Read the User Guide](CMS-USER-GUIDE.md)** - Step-by-step instructions for updating your website
-
-**Quick Access:**
-- CMS Login: [https://dime73.github.io/ArtByJen/admin/](https://dime73.github.io/ArtByJen/admin/)
-- Login with your GitHub account
-- Update text, images, and gallery items easily!
-
-### For Developers/Administrators
-
-📖 **[Read the Setup Guide](CMS-SETUP-GUIDE.md)** - Technical documentation for CMS configuration
-
-**What can be managed:**
-- Home page hero section (title, subtitle)
-- About section (all text content)
-- Contact information (email, description)
-- Gallery items (add, edit, delete, reorder)
-- All images
+Open the [studio editor](https://dime73.github.io/ArtByJen/admin/) to update the home page, about and contact sections, and gallery artwork and images. The editor uses a fine-grained GitHub token with **Contents: Read and write** access to this repository. It saves changes directly to `main`, which triggers the GitHub Pages deployment. See the [editor guide](CMS-USER-GUIDE.md) for first-time access and the [setup guide](CMS-SETUP-GUIDE.md) for technical details.
 
 ## Features
 
@@ -38,12 +18,12 @@ This portfolio is hosted on GitHub Pages: [https://dime73.github.io/ArtByJen/](h
 - Gallery showcase with clearly labeled sample artwork
 - About section
 - Contact information
-- **Content Management System (CMS)** for easy updates
+- Studio editor for content and artwork
 - Dynamic content loading from JSON files
 
 ## Design Philosophy
 
-The design uses oversized editorial typography, generous space, a cobalt accent, and an asymmetric gallery. Artwork and text remain editable through the existing CMS.
+The design uses oversized editorial typography, generous space, a cobalt accent, and an asymmetric gallery. Artwork and text remain editable through the studio editor.
 
 ## Deployment
 

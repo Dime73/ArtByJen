@@ -1,12 +1,66 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Content Manager</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.github.com; img-src 'self' blob: data:; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'">
+  <title>Studio editor · Art by Jen</title>
+  <link rel="stylesheet" href="editor.css">
+  <script src="editor.js" type="module"></script>
 </head>
 <body>
-    <!-- Include the script that builds the page and powers Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <header class="topbar">
+    <a class="brand" href="../" aria-label="Art by Jen home">Art by <em>Jen.</em></a>
+    <span class="topbar-label">Studio editor</span>
+    <a class="site-link" href="../" target="_blank" rel="noopener noreferrer">View website <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main>
+    <section id="connect" class="connect-card" aria-labelledby="connect-title">
+      <p class="eyebrow">CONTENT MANAGEMENT</p>
+      <h1 id="connect-title">Make it <em>yours.</em></h1>
+      <p class="intro">Edit the words and artwork on your portfolio. Changes are saved to the ArtByJen repository and appear on the website after GitHub Pages publishes them.</p>
+      <form id="connect-form">
+        <label for="token">GitHub access token</label>
+        <div class="connect-row">
+          <input id="token" type="password" autocomplete="off" spellcheck="false" required placeholder="Paste your fine-grained token">
+          <button class="button button-primary" type="submit">Open editor <span aria-hidden="true">→</span></button>
+        </div>
+      </form>
+      <p class="help">The token stays in this browser tab’s memory and is cleared when the tab closes. Create a <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">fine-grained token</a> for <strong>Dime73/ArtByJen</strong> with <strong>Contents: Read and write</strong>. You need write access to the repository.</p>
+    </section>
+
+    <section id="editor" class="editor" hidden aria-label="Portfolio editor">
+      <div class="editor-heading">
+        <div>
+          <p class="eyebrow">ART BY JEN / EDITOR</p>
+          <h1>Shape your <em>story.</em></h1>
+        </div>
+        <div class="editor-actions">
+          <button id="disconnect" type="button" class="text-button">Disconnect</button>
+          <button id="save" type="button" class="button button-primary">Publish changes <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+
+      <div class="editor-layout">
+        <nav class="sidebar" aria-label="Content sections">
+          <p class="sidebar-label">PAGES & CONTENT</p>
+          <button class="nav-item active" type="button" data-section="hero">01 <span>Home</span></button>
+          <button class="nav-item" type="button" data-section="about">02 <span>About</span></button>
+          <button class="nav-item" type="button" data-section="contact">03 <span>Contact</span></button>
+          <button class="nav-item" type="button" data-section="gallery">04 <span>Gallery</span></button>
+          <div class="sidebar-note">Your edits are collected here until you publish them together.</div>
+        </nav>
+
+        <div class="workarea">
+          <div id="section-intro" class="section-intro"></div>
+          <div id="fields"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="status" class="status" role="status" aria-live="polite" hidden></div>
 </body>
 </html>

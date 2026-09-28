@@ -56,16 +56,9 @@ This guide explains how to deploy the ArtByJen portfolio to Netlify.
    netlify deploy --prod
    ```
 
-## Content Management System (CMS)
+## Studio editor
 
-The Decap CMS will work on Netlify using GitHub authentication:
-
-1. Access the CMS at: `https://your-site.netlify.app/admin/`
-2. Click "Login with GitHub"
-3. Authorize the application
-4. You can now manage content!
-
-**Note**: Only repository collaborators can access the CMS due to the GitHub backend configuration.
+The studio editor also works when the site is hosted on Netlify. Open `https://your-site.netlify.app/admin/` and enter a fine-grained GitHub token for `Dime73/ArtByJen` with **Contents: Read and write**. The GitHub account must have write access to the repository. See the [editor guide](CMS-USER-GUIDE.md).
 
 ## Configuration Details
 
@@ -85,10 +78,10 @@ Once connected to GitHub:
 
 ## Troubleshooting
 
-### CMS Login Issues
+### Editor access issues
 - Ensure you have collaborator access to the GitHub repository
-- Check that you're logged into the correct GitHub account
-- Try clearing browser cache and cookies
+- Check that the token selects this repository and has **Contents: Read and write**
+- Check whether the token has expired or been revoked
 
 ### Deployment Failures
 - Check the Netlify deploy logs for specific errors
@@ -103,5 +96,5 @@ Once connected to GitHub:
 ## Additional Resources
 
 - [Netlify Documentation](https://docs.netlify.com/)
-- [Decap CMS Documentation](https://decapcms.org/docs/)
+- [Editor guide](CMS-USER-GUIDE.md)
 - [GitHub Repository](https://github.com/Dime73/ArtByJen)
