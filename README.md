@@ -1,6 +1,6 @@
 # ArtByJen
 
-A minimalist art portfolio website with Scandinavian design aesthetics and an easy-to-use Content Management System (CMS).
+A modern, gallery-led art portfolio with an easy-to-use Content Management System (CMS). The three artworks currently shown are generated samples and should be replaced with Jen's own work before presenting the gallery as her portfolio.
 
 ## Live Website
 
@@ -32,10 +32,10 @@ This portfolio is hosted on GitHub Pages: [https://dime73.github.io/ArtByJen/](h
 
 ## Features
 
-- Clean, minimal Scandinavian design
+- Editorial typography and an art-first layout
 - Responsive layout for all devices
 - Simple navigation
-- Gallery showcase with placeholder artwork
+- Gallery showcase with clearly labeled sample artwork
 - About section
 - Contact information
 - **Content Management System (CMS)** for easy updates
@@ -43,12 +43,7 @@ This portfolio is hosted on GitHub Pages: [https://dime73.github.io/ArtByJen/](h
 
 ## Design Philosophy
 
-The design follows Scandinavian minimalism principles:
-- Muted, neutral color palette
-- Generous white space
-- Simple typography
-- Clean lines and borders
-- Subtle hover effects
+The design uses oversized editorial typography, generous space, a cobalt accent, and an asymmetric gallery. Artwork and text remain editable through the existing CMS.
 
 ## Deployment
 
@@ -104,4 +99,3 @@ python3 -m http.server 8080
 ```
 
 Then open `http://localhost:8080` in your browser.
-

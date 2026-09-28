@@ -1,137 +1,58 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Art Portfolio by Jen - Showcasing creative artwork">
-    <title>Art By Jen - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="content-loader.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Art by Jen — a portfolio of color, texture, and form.">
+  <meta name="theme-color" content="#f7f7f4">
+  <title>Art by Jen — Portfolio</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%231b1b1b'/%3E%3Cpath d='M18 45V20h8v25c0 6-3 9-9 9h-4v-7h3c1 0 2-1 2-2zm17-25h8l5 11 5-11h8L52 38v16h-8V38z' fill='%23f7f7f4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="content-loader.js" defer></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="container">
-                <div class="logo">
-                    <img src="images/logo.svg" alt="BY Jen Logo">
-                    <span>Art By Jen</span>
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <h2>Welcome to My Art Portfolio</h2>
-                <p>Exploring creativity through various mediums</p>
-            </div>
-        </section>
-
-        <section id="gallery" class="gallery-section">
-            <div class="container">
-                <h2 class="section-title">Gallery</h2>
-                <div class="gallery-grid">
-                    <div class="gallery-item">
-                        <img src="images/art1.svg" alt="Abstract Art 1">
-                        <div class="gallery-item-info">
-                            <h3>Abstract Dreams</h3>
-                            <p>Mixed Media, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art2.svg" alt="Landscape 1">
-                        <div class="gallery-item-info">
-                            <h3>Mountain Serenity</h3>
-                            <p>Oil on Canvas, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art3.svg" alt="Portrait 1">
-                        <div class="gallery-item-info">
-                            <h3>Silent Reflection</h3>
-                            <p>Charcoal, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art4.svg" alt="Still Life 1">
-                        <div class="gallery-item-info">
-                            <h3>Morning Light</h3>
-                            <p>Watercolor, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art5.svg" alt="Abstract Art 2">
-                        <div class="gallery-item-info">
-                            <h3>Urban Rhythms</h3>
-                            <p>Acrylic, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art6.svg" alt="Nature 1">
-                        <div class="gallery-item-info">
-                            <h3>Botanical Wonder</h3>
-                            <p>Digital Art, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art7.svg" alt="Sculpture 1">
-                        <div class="gallery-item-info">
-                            <h3>Form & Space</h3>
-                            <p>Clay Sculpture, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art8.svg" alt="Photography 1">
-                        <div class="gallery-item-info">
-                            <h3>Frozen Moment</h3>
-                            <p>Photography, 2024</p>
-                        </div>
-                    </div>
-                    <div class="gallery-item">
-                        <img src="images/art9.svg" alt="Mixed Media 1">
-                        <div class="gallery-item-info">
-                            <h3>Textured Harmony</h3>
-                            <p>Mixed Media, 2024</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="about" class="about-section">
-            <div class="container">
-                <h2 class="section-title">About the Artist</h2>
-                <div class="about-content">
-                    <div class="about-text">
-                        <p>Welcome! I'm Jen, an artist passionate about exploring different mediums and techniques. My work focuses on capturing emotions, nature, and the human experience through various artistic expressions.</p>
-                        <p>From traditional painting to digital art, I enjoy experimenting with colors, textures, and forms to create pieces that resonate with viewers on a personal level.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact-section">
-            <div class="container">
-                <h2 class="section-title">Get In Touch</h2>
-                <div class="contact-content">
-                    <p>Interested in my work or want to collaborate?</p>
-                    <p>Email: <a href="mailto:art@jenportfolio.com">art@jenportfolio.com</a></p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Art By Jen. All rights reserved.</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="wordmark" href="#top" aria-label="Art by Jen, back to top">ART<span>BY</span>JEN<span class="wordmark-mark" aria-hidden="true">✳</span></a>
+      <nav aria-label="Main navigation"><a href="#gallery">Work</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero container" id="top" aria-labelledby="hero-title">
+      <div class="hero-kicker"><span>Portfolio</span><span>Art by Jen</span></div>
+      <div class="hero-main">
+        <h1 id="hero-title">Art by <em>Jen.</em></h1>
+        <div class="hero-aside"><p id="hero-subtitle">An exploration of color, texture and form.</p><a href="#gallery" class="text-link">Explore the work <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="hero-bottom"><span>Selected works</span><span>Scroll to explore ↓</span></div>
+    </section>
+    <section class="gallery-section" id="gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-heading"><h2 id="gallery-title">Selected work<span class="heading-dot">.</span></h2><p>Studies in color, texture and form.</p></div>
+        <div class="gallery-grid" aria-live="polite">
+          <figure class="gallery-item"><div class="art-frame"><img src="images/gestural-abstraction.webp" alt="Abstract composition with sweeping cobalt marks"></div><figcaption class="gallery-item-info"><h3>Gestural Study</h3><p>Sample artwork</p></figcaption></figure>
+          <figure class="gallery-item"><div class="art-frame"><img src="images/sculptural-botanical.webp" alt="Sculptural botanical cut-paper forms"></div><figcaption class="gallery-item-info"><h3>Botanical Study</h3><p>Sample artwork</p></figcaption></figure>
+          <figure class="gallery-item"><div class="art-frame"><img src="images/geometric-colorfield.webp" alt="Textured geometric color planes"></div><figcaption class="gallery-item-info"><h3>Color Field</h3><p>Sample artwork</p></figcaption></figure>
         </div>
-    </footer>
+        <p class="gallery-note">Sample artwork is shown while Jen’s original pieces are being added.</p>
+      </div>
+    </section>
+    <section class="about-section" id="about" aria-labelledby="about-title"><div class="container about-grid">
+      <div class="section-index">01 / The artist</div>
+      <div><h2 id="about-title" class="section-title">About Jen<span class="heading-dot">.</span></h2><div class="about-text">
+        <p>Welcome! I'm Jen, an artist passionate about exploring different mediums and techniques. My work focuses on capturing emotions, nature, and the human experience through various artistic expressions.</p>
+        <p>From traditional painting to digital art, I enjoy experimenting with colors, textures, and forms to create pieces that resonate with viewers on a personal level.</p>
+      </div></div>
+    </div></section>
+    <section class="contact-section" id="contact" aria-labelledby="contact-title"><div class="container contact-grid">
+      <div class="section-index">02 / Contact</div>
+      <div><h2 id="contact-title" class="section-title">Let's connect<span class="heading-dot">.</span></h2><div class="contact-content">
+        <p>Interested in my work or want to collaborate?</p>
+        <a href="mailto:art@jenportfolio.com" class="contact-link">art@jenportfolio.com <span aria-hidden="true">↗</span></a>
+      </div></div>
+    </div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><span>ART BY JEN</span><span>© <span id="year">2026</span> Art by Jen</span><a href="#top">Back to top ↑</a></div></footer>
 </body>
 </html>

@@ -1,0 +1,9 @@
+{
+  "title": "Color Field",
+  "medium": "Sample artwork",
+  "image": "images/geometric-colorfield.webp",
+  "alt": "Textured geometric planes of cobalt, ochre and oxblood",
+  "order": 3,
+  "sample": true,
+  "filename": "color-field"
+}
